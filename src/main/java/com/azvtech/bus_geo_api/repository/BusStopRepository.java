@@ -31,4 +31,8 @@ public interface BusStopRepository extends JpaRepository<BusStop, Long> {
             @Param("latCenter") double latCenter,
             @Param("radius") double radius
     );
+
+    // Busca paradas dentro de um raio (metros)
+    @Query("SELECT s FROM BusStop s WHERE ST_Distance(s.wkbGeometry, :point) <= :radius")
+    List<BusStop> findNearbyStops(@Param("point") Point point, @Param("radius") double radius);
 }
